@@ -1,29 +1,45 @@
-![image alt](https://github.com/mdsaquibzaidi/Tkinter-Calculator/blob/afb040cb7cdeaf252508a220931f10e0a3ebf01f/Screenshot%202025-08-19%20204822.png)
-# Tkinter-Calculator
-A simple GUI Calculator built using Python’s Tkinter library. It supports basic arithmetic operations like addition, subtraction, multiplication, division, modulus, and decimal numbers. 
-# 🖩 Tkinter Calculator
+from tkinter import *
 
-A simple **GUI Calculator** built using Python’s **Tkinter** library.  
-It supports basic arithmetic operations like addition, subtraction, multiplication, division, modulus, and decimal numbers.  
+def click(event):
+    text = event.widget.cget("text")
+    if text == "=":
+        try:
+            value = eval(screen_var.get())
+            screen_var.set(value)
+        except Exception:
+            screen_var.set("Error")
+    elif text == "C":
+        screen_var.set("")
+    else:
+        screen_var.set(screen_var.get() + text)
 
-## 🚀 Features
-- Clean and responsive GUI  
-- Basic operations: `+`, `-`, `*`, `/`, `%`  
-- Clear button (`C`) and equals (`=`) for evaluation  
-- Error handling (displays `"Error"` for invalid input)  
-- Double zero (`00`) and decimal (`.`) support  
+# Main window
+root = Tk()
+root.geometry("400x600")
+root.title("Calculator by Zaidi")
 
-## 🛠️ Tech Stack
-- **Language**: Python 3  
-- **Library**: Tkinter (standard Python GUI library)
+# Entry widget
+screen_var = StringVar()
+screen_var.set("")
+screen = Entry(root, textvar=screen_var, font="lucida 30 bold", bd=8, relief=SUNKEN, justify=RIGHT)
+screen.pack(fill=X, ipadx=8, pady=10, padx=10)
 
+# Button layout
+buttons = [
+    ["C", "%", "/", "*"],
+    ["7", "8", "9", "-"],
+    ["4", "5", "6", "+"],
+    ["1", "2", "3", "="],
+    ["00", "0", ".", ""]
+]
 
-## ▶️ Run the Project
-Clone the repository and run:
-```bash
-git clone https://github.com/<your-username>/Tkinter-Calculator.git
-cd Tkinter-Calculator
-python calculator.py
+for row in buttons:
+    f = Frame(root, bg="black")
+    for text in row:
+        if text != "":
+            button = Button(f, text=text, padx=20, pady=20, font="lucida 20 bold")
+            button.bind("<Button-1>", click)
+            button.pack(side=LEFT, padx=8, pady=8)
+    f.pack()
 
-
-!
+root.mainloop()
